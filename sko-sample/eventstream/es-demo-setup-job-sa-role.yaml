@@ -4,9 +4,15 @@ metadata:
   namespace: tools
   name: es-job-role
 rules:
-- apiGroups: ["eventstreams.ibm.com"] 
-  resources: ["eventstreams"]
-  verbs: ["get", "watch", "list"]
+  - apiGroups: ["eventstreams.ibm.com"]
+    resources: ["eventstreams"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["route.openshift.io"]
+    resources: ["routes"]
+    verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -14,9 +20,9 @@ metadata:
   name: es-job-rolebinding
   namespace: tools
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: tools
+  - kind: ServiceAccount
+    name: default
+    namespace: tools
 roleRef:
   kind: Role
   name: es-job-role
